@@ -8,8 +8,6 @@ import Cta from "@/components/cta";
 import Testimonials from "@/components/Testimonials";
 import Fhs from "@/components/fhs";
 import Footer from "@/components/footer";
-import Contact from "@/components/contact";
-import Chatbot from "@/components/chatbot";
 
 export default function Home() {
   return (
@@ -24,10 +22,8 @@ export default function Home() {
         <Testimonials />
         <Fhs />
         <Cta />
-        <Contact />
       </main>
       <Footer />
-      <Chatbot />
     </>
   );
 }

@@ -1,0 +1,22 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrow" x1="0" y1="0" x2="640" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#184033"/>
+      <stop offset="1" stop-color="#112A21"/>
+    </linearGradient>
+    <linearGradient id="barGrow" x1="0" y1="0" x2="0" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3FF9F"/>
+      <stop offset="1" stop-color="#77B795"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="url(#bgGrow)"/>
+  <circle cx="520" cy="88" r="80" fill="#E3FF9F" fill-opacity="0.1"/>
+  <rect x="58" y="208" width="524" height="96" rx="14" fill="#FFFFFF" fill-opacity="0.08"/>
+  <rect x="102" y="168" width="54" height="112" rx="10" fill="url(#barGrow)"/>
+  <rect x="182" y="142" width="54" height="138" rx="10" fill="url(#barGrow)"/>
+  <rect x="262" y="116" width="54" height="164" rx="10" fill="url(#barGrow)"/>
+  <rect x="342" y="96" width="54" height="184" rx="10" fill="url(#barGrow)"/>
+  <rect x="422" y="74" width="54" height="206" rx="10" fill="url(#barGrow)"/>
+  <path d="M100 130C136 118 172 104 208 96C248 86 290 84 330 76C375 66 414 52 454 40L496 30" stroke="#D9F8E8" stroke-opacity="0.9" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="496" cy="30" r="12" fill="#E3FF9F"/>
+</svg>

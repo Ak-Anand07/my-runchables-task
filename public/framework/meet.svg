@@ -1,0 +1,23 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgMeet" x1="0" y1="0" x2="640" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173A2E"/>
+      <stop offset="1" stop-color="#10271F"/>
+    </linearGradient>
+    <linearGradient id="lineMeet" x1="120" y1="0" x2="120" y2="280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3FF9F"/>
+      <stop offset="1" stop-color="#7CBF9A"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="url(#bgMeet)"/>
+  <circle cx="510" cy="80" r="84" fill="#E3FF9F" fill-opacity="0.12"/>
+  <circle cx="140" cy="92" r="52" fill="#76B594" fill-opacity="0.2"/>
+  <rect x="58" y="190" width="524" height="112" rx="16" fill="#FFFFFF" fill-opacity="0.08"/>
+  <line x1="120" y1="68" x2="120" y2="282" stroke="url(#lineMeet)" stroke-width="10" stroke-linecap="round"/>
+  <line x1="220" y1="108" x2="420" y2="108" stroke="#D2F4E3" stroke-opacity="0.8" stroke-width="12" stroke-linecap="round"/>
+  <line x1="220" y1="152" x2="500" y2="152" stroke="#D2F4E3" stroke-opacity="0.56" stroke-width="10" stroke-linecap="round"/>
+  <line x1="220" y1="196" x2="454" y2="196" stroke="#D2F4E3" stroke-opacity="0.42" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="120" cy="86" r="16" fill="#E3FF9F"/>
+  <circle cx="120" cy="172" r="16" fill="#A6DDBE"/>
+  <circle cx="120" cy="258" r="16" fill="#6FAE8D"/>
+</svg>
