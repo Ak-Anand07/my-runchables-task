@@ -220,6 +220,18 @@ const countryNames = [...new Set(countryPhoneData.map((item) => item.country))].
   a.localeCompare(b)
 );
 
+const countryPhoneOptions = countryPhoneData.map((item) => (
+  <option key={`${item.country}-${item.dialCode}`} value={`${item.country}|${item.dialCode}`}>
+    {item.country} {item.dialCode}
+  </option>
+));
+
+const countryNameOptions = countryNames.map((country) => (
+  <option key={country} value={country}>
+    {country}
+  </option>
+));
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -340,140 +352,132 @@ export default function Navbar() {
       />
 
       <aside className={`apply-offcanvas${applyOpen ? " is-open" : ""}`} aria-label="Membership form">
-        <div className="apply-offcanvas-head">
-          <div className="apply-brand">
-            <span className="apply-brand-mark" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-            <span className="apply-brand-text">FounderRise</span>
-          </div>
-          <h3>Membership Application</h3>
-          <button type="button" className="apply-close" aria-label="Close form" onClick={() => setApplyOpen(false)}>
-            x
-          </button>
-        </div>
-
-        <form className="apply-offcanvas-form" action="#" method="post">
-          <p className="apply-offcanvas-note">
-            Our community is only for SaaS CEOs and founders with $1M to $100M in ARR
-          </p>
-
-          <div className="apply-offcanvas-grid">
-            <label className="apply-field">
-              <span>First Name</span>
-              <input type="text" name="firstName" placeholder="First name" required />
-            </label>
-            <label className="apply-field">
-              <span>Last Name</span>
-              <input type="text" name="lastName" placeholder="Last name" required />
-            </label>
-          </div>
-
-          <label className="apply-field">
-            <span>Email</span>
-            <input type="email" name="email" placeholder="you@company.com" required />
-          </label>
-
-          <label className="apply-field">
-            <span>Mobile Number</span>
-            <div className="apply-mobile-row">
-              <select className="apply-select-modern apply-select-compact" name="mobileCountry" defaultValue="India|+91">
-                {countryPhoneData.map((item) => (
-                  <option key={`${item.country}-${item.dialCode}`} value={`${item.country}|${item.dialCode}`}>
-                    {item.country} {item.dialCode}
-                  </option>
-                ))}
-              </select>
-              <input type="tel" name="mobile" placeholder="" required />
+        <div className="apply-offcanvas-scroll">
+          <div className="apply-offcanvas-head">
+            <div className="apply-brand">
+              <span className="apply-brand-mark" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className="apply-brand-text">FounderRise</span>
             </div>
-            <small>We send an SMS upon acceptance</small>
-          </label>
-
-          <div className="apply-offcanvas-grid">
-            <label className="apply-field">
-              <span>Company</span>
-              <input type="text" name="company" placeholder="Company name" required />
-            </label>
-            <label className="apply-field">
-              <span>Job Title</span>
-              <input type="text" name="jobTitle" placeholder="Job title" required />
-            </label>
+            <h3>Membership Application</h3>
+            <button type="button" className="apply-close" aria-label="Close form" onClick={() => setApplyOpen(false)}>
+              x
+            </button>
           </div>
 
-          <div className="apply-offcanvas-grid">
+          <form className="apply-offcanvas-form" action="#" method="post">
+            <p className="apply-offcanvas-note">
+              Our community is only for SaaS CEOs and founders with $1M to $100M in ARR
+            </p>
+
+            <div className="apply-offcanvas-grid">
+              <label className="apply-field">
+                <span>First Name</span>
+                <input type="text" name="firstName" placeholder="First name" required />
+              </label>
+              <label className="apply-field">
+                <span>Last Name</span>
+                <input type="text" name="lastName" placeholder="Last name" required />
+              </label>
+            </div>
+
             <label className="apply-field">
-              <span>City</span>
-              <input type="text" name="city" placeholder="City" required />
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@company.com" required />
             </label>
+
             <label className="apply-field">
-              <span>Country</span>
-              <select className="apply-select-modern apply-select-compact" name="country" defaultValue="India" required>
-                {countryNames.map((country) => (
-                  <option key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
+              <span>Mobile Number</span>
+              <div className="apply-mobile-row">
+                <select className="apply-select-modern apply-select-compact" name="mobileCountry" defaultValue="India|+91">
+                  {countryPhoneOptions}
+                </select>
+                <input type="tel" name="mobile" placeholder="" required />
+              </div>
+              <small>We send an SMS upon acceptance</small>
+            </label>
+
+            <div className="apply-offcanvas-grid">
+              <label className="apply-field">
+                <span>Company</span>
+                <input type="text" name="company" placeholder="Company name" required />
+              </label>
+              <label className="apply-field">
+                <span>Job Title</span>
+                <input type="text" name="jobTitle" placeholder="Job title" required />
+              </label>
+            </div>
+
+            <div className="apply-offcanvas-grid">
+              <label className="apply-field">
+                <span>City</span>
+                <input type="text" name="city" placeholder="City" required />
+              </label>
+              <label className="apply-field">
+                <span>Country</span>
+                <select className="apply-select-modern apply-select-compact" name="country" defaultValue="India" required>
+                  {countryNameOptions}
+                </select>
+              </label>
+            </div>
+
+            <label className="apply-field">
+              <span>State/Region</span>
+              <input type="text" name="stateRegion" placeholder="State / Region" required />
+            </label>
+
+            <label className="apply-field">
+              <span>Annual Revenue (Last Month x12)</span>
+              <select className="apply-select-modern" name="arr" required defaultValue="">
+                <option value="" disabled>Select one...</option>
+                <option value="under-1m">Below $1M</option>
+                <option value="1m-3m">$1M to $3M</option>
+                <option value="3m-10m">$3M to $10M</option>
+                <option value="10m-25m">$10M to $25M</option>
+                <option value="25m-50m">$25M to $50M</option>
+                <option value="50m-100m">$50M to $100M</option>
+                <option value="above-100m">Above $100M</option>
               </select>
             </label>
-          </div>
 
-          <label className="apply-field">
-            <span>State/Region</span>
-            <input type="text" name="stateRegion" placeholder="State / Region" required />
-          </label>
+            <label className="apply-field">
+              <span>What Makes You Excited to Join FounderRise?</span>
+              <textarea name="excited" rows={3} placeholder="Share what excites you most." required />
+            </label>
 
-          <label className="apply-field">
-            <span>Annual Revenue (Last Month x12)</span>
-            <select className="apply-select-modern" name="arr" required defaultValue="">
-              <option value="" disabled>Select one...</option>
-              <option value="under-1m">Below $1M</option>
-              <option value="1m-3m">$1M to $3M</option>
-              <option value="3m-10m">$3M to $10M</option>
-              <option value="10m-25m">$10M to $25M</option>
-              <option value="25m-50m">$25M to $50M</option>
-              <option value="50m-100m">$50M to $100M</option>
-              <option value="above-100m">Above $100M</option>
-            </select>
-          </label>
+            <label className="apply-field">
+              <span>Why would you like to join the community?</span>
+              <textarea name="whyJoin" rows={3} placeholder="Tell us your goal for joining." required />
+            </label>
 
-          <label className="apply-field">
-            <span>What Makes You Excited to Join FounderRise?</span>
-            <textarea name="excited" rows={3} placeholder="Share what excites you most." required />
-          </label>
+            <label className="apply-field">
+              <span>How Did You Hear About Us?</span>
+              <input
+                type="text"
+                name="source"
+                placeholder="e.g., Google search, social media, referral..."
+                required
+              />
+            </label>
 
-          <label className="apply-field">
-            <span>Why would you like to join the community?</span>
-            <textarea name="whyJoin" rows={3} placeholder="Tell us your goal for joining." required />
-          </label>
+            <label className="apply-confirm">
+              <input type="checkbox" name="consent" required />
+              <span>
+                If my application is approved, I understand that I will receive an email and text
+                message from FounderRise with the link to officially sign up and join the community.
+                I've double-checked my email and phone number above.
+              </span>
+            </label>
 
-          <label className="apply-field">
-            <span>How Did You Hear About Us?</span>
-            <input
-              type="text"
-              name="source"
-              placeholder="e.g., Google search, social media, referral..."
-              required
-            />
-          </label>
-
-          <label className="apply-confirm">
-            <input type="checkbox" name="consent" required />
-            <span>
-              If my application is approved, I understand that I will receive an email and text
-              message from FounderRise with the link to officially sign up and join the community.
-              I've double-checked my email and phone number above.
-            </span>
-          </label>
-
-          <button className="btn btn-solid btn-apply-join" type="submit">
-            Submit Application
-          </button>
-        </form>
+            <button className="btn btn-solid btn-apply-join" type="submit">
+              Submit Application
+            </button>
+          </form>
+        </div>
       </aside>
     </header>
   );
 }
-
-

@@ -465,6 +465,7 @@ main {
   pointer-events: none;
   position: fixed;
   transition: opacity 240ms ease;
+  will-change: opacity;
   z-index: 34;
 }
 
@@ -480,23 +481,46 @@ main {
     linear-gradient(170deg, #173a2e, #10271f 55%, #0d211a);
   border-left: 1px solid rgba(171, 214, 192, 0.28);
   box-shadow: -18px 0 40px rgba(8, 20, 16, 0.42);
-  display: grid;
-  gap: 14px;
+  display: block;
   height: 100dvh;
+  height: 100svh;
   max-width: 620px;
-  overflow-y: auto;
-  padding: 20px 18px 22px;
+  overflow: hidden;
   position: fixed;
   right: 0;
   top: 0;
-  transform: translateX(104%);
+  transform: translate3d(104%, 0, 0);
   transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  contain: paint;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   width: min(100%, 620px);
   z-index: 35;
 }
 
 .apply-offcanvas.is-open {
-  transform: translateX(0);
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
+
+.apply-offcanvas-scroll {
+  display: grid;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 18px 22px;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apply-overlay,
+  .apply-offcanvas {
+    transition: none;
+  }
 }
 
 .apply-offcanvas-head {
@@ -2827,6 +2851,12 @@ main {
 
   .apply-mobile-row {
     grid-template-columns: 1fr;
+  }
+
+  .apply-offcanvas {
+    background: linear-gradient(165deg, #15372b, #10291f 64%, #0f241c);
+    box-shadow: -10px 0 24px rgba(8, 20, 16, 0.3);
+    transition-duration: 280ms;
   }
 
   .apply-actions {
