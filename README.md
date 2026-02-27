@@ -27,8 +27,28 @@ This project focuses on:
 - JavaScript (ES6+)
 - HTML5
 - CSS3 / Bootstrap
+- MySQL
 - Git & GitHub
 - Vercel (Deployment)
 
 ---
+
+## MySQL Setup
+
+Auth storage has been moved from `localStorage` to MySQL.
+
+1. Copy `.env.example` to `.env.local` and set your MySQL credentials.
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run the app:
+
+```bash
+npm run dev
+```
+
+The app creates `users` and `sessions` tables automatically when auth APIs are called.
 

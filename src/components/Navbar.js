@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { useAuth } from "../context/AuthContext";
 
 const navLinks = [
   { href: "#community", label: "Community" },
@@ -233,9 +236,16 @@ const countryNameOptions = countryNames.map((country) => (
 ));
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [applyOpen, setApplyOpen] = useState(false);
+  const [applySuccessOpen, setApplySuccessOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -255,7 +265,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen && !applyOpen) {
+    if (!menuOpen && !applyOpen && !applySuccessOpen) {
       document.body.style.overflow = "";
       return;
     }
@@ -264,17 +274,31 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen, applyOpen]);
+  }, [menuOpen, applyOpen, applySuccessOpen]);
 
   const headerClass = `site-header${scrolled ? " is-scrolled" : ""}${menuOpen ? " menu-open" : ""}`;
   const openApplyPanel = () => {
     setMenuOpen(false);
     setApplyOpen(true);
   };
+  const userInitial = user?.name?.charAt(0)?.toUpperCase() || user?.username?.charAt(0)?.toUpperCase() || "U";
+
+  const onLogout = () => {
+    logout();
+    setMenuOpen(false);
+  };
+
+  const onApplySubmit = (event) => {
+    event.preventDefault();
+    event.currentTarget.reset();
+    setApplyOpen(false);
+    setApplySuccessOpen(true);
+  };
 
   return (
-    <header className={headerClass}>
-      <div className="shell nav-shell">
+    <>
+      <header className={headerClass}>
+        <div className="shell nav-shell">
         <a className="brand" href="#hero">
           <span className="brand-mark" aria-hidden="true">
             <span />
@@ -292,7 +316,7 @@ export default function Navbar() {
               <div key={link.href} className="nav-dropdown">
                 <a href={link.href}>
                   {link.label}
-                  <span className="nav-caret" aria-hidden="true">▾</span>
+                  <span className="nav-caret" aria-hidden="true">{"\u25BE"}</span>
                 </a>
                 <div className="nav-dropdown-menu" role="menu" aria-label="Community menu">
                   {communityLinks.map((item) => (
@@ -311,10 +335,23 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-actions desktop-only">
-          <a className="btn btn-ghost" href="/login">Log In</a>
           <button className="btn btn-solid btn-apply-join" type="button" onClick={openApplyPanel}>
             Apply to Join
           </button>
+          <div className="nav-auth-slot">
+            {mounted && user ? (
+              <div className="nav-account-group" aria-label="Account actions">
+                <Link className="nav-user" href="/account/profile" aria-label="Open profile">
+                  <span className="nav-user-avatar" aria-hidden="true">{userInitial}</span>
+                </Link>
+                <button className="btn btn-ghost nav-icon-btn nav-logout-btn" type="button" onClick={onLogout} aria-label="Logout">
+                   <i className="bi bi-box-arrow-right fs-4"></i>
+                </button>
+              </div>
+            ) : (
+              <Link className="btn btn-ghost" href="/login">Log In</Link>
+            )}
+          </div>
         </div>
 
         <button
@@ -330,29 +367,42 @@ export default function Navbar() {
         </button>
       </div>
 
-      <div className={`mobile-menu${menuOpen ? " is-open" : ""}`}>
+        <div className={`mobile-menu${menuOpen ? " is-open" : ""}`}>
         {navLinks.map((link) => (
           <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
             {link.label}
           </a>
         ))}
         <div className="mobile-menu-actions">
-          <a className="btn btn-ghost" href="/login" onClick={() => setMenuOpen(false)}>Log In</a>
+          {mounted && user ? (
+            <div className="mobile-account-group" aria-label="Account actions">
+              <Link className="mobile-user-link" href="/account/profile" onClick={() => setMenuOpen(false)} aria-label="Open profile">
+                <span className="nav-user-avatar" aria-hidden="true">{userInitial}</span>
+                <span>Profile</span>
+              </Link>
+              <button className="btn btn-ghost mobile-logout-btn" type="button" onClick={onLogout} aria-label="Logout">
+                <i className="bi bi-box-arrow-right" aria-hidden="true"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          ) : (
+            <Link className="btn btn-ghost" href="/login" onClick={() => setMenuOpen(false)}>Log In</Link>
+          )}
           <button className="btn btn-solid btn-apply-join" type="button" onClick={openApplyPanel}>
             Apply to Join
           </button>
         </div>
       </div>
 
-      <button
-        className={`apply-overlay${applyOpen ? " is-open" : ""}`}
-        type="button"
-        aria-label="Close membership form"
-        onClick={() => setApplyOpen(false)}
-      />
+        <button
+          className={`apply-overlay${applyOpen ? " is-open" : ""}`}
+          type="button"
+          aria-label="Close membership form"
+          onClick={() => setApplyOpen(false)}
+        />
 
-      <aside className={`apply-offcanvas${applyOpen ? " is-open" : ""}`} aria-label="Membership form">
-        <div className="apply-offcanvas-scroll">
+        <aside className={`apply-offcanvas${applyOpen ? " is-open" : ""}`} aria-label="Membership form">
+          <div className="apply-offcanvas-scroll">
           <div className="apply-offcanvas-head">
             <div className="apply-brand">
               <span className="apply-brand-mark" aria-hidden="true">
@@ -364,11 +414,11 @@ export default function Navbar() {
             </div>
             <h3>Membership Application</h3>
             <button type="button" className="apply-close" aria-label="Close form" onClick={() => setApplyOpen(false)}>
-              x
+              {"\u00D7"}
             </button>
           </div>
 
-          <form className="apply-offcanvas-form" action="#" method="post">
+          <form className="apply-offcanvas-form" action="#" method="post" onSubmit={onApplySubmit}>
             <p className="apply-offcanvas-note">
               Our community is only for SaaS CEOs and founders with $1M to $100M in ARR
             </p>
@@ -468,7 +518,7 @@ export default function Navbar() {
               <span>
                 If my application is approved, I understand that I will receive an email and text
                 message from FounderRise with the link to officially sign up and join the community.
-                I've double-checked my email and phone number above.
+                I&apos;ve double-checked my email and phone number above.
               </span>
             </label>
 
@@ -476,8 +526,30 @@ export default function Navbar() {
               Submit Application
             </button>
           </form>
-        </div>
-      </aside>
-    </header>
+          </div>
+        </aside>
+      </header>
+
+      {mounted &&
+        createPortal(
+          <div className={`contact-success-modal${applySuccessOpen ? " is-open" : ""}`} aria-hidden={!applySuccessOpen}>
+            <button
+              type="button"
+              className="contact-success-backdrop"
+              aria-label="Close success modal"
+              onClick={() => setApplySuccessOpen(false)}
+            />
+            <div className="contact-success-dialog" role="dialog" aria-modal="true" aria-labelledby="membership-success-title">
+              <p className="eyebrow">Success</p>
+              <h3 id="membership-success-title">Application submitted successfully.</h3>
+              <p>Thanks for applying. Our team will review your membership request and contact you soon.</p>
+              <button className="btn btn-solid btn-apply-join" type="button" onClick={() => setApplySuccessOpen(false)}>
+                Close
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
   );
 }

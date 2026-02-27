@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { resetPassword } from '../../lib/auth';
+import { signupUser } from '../../../lib/auth';
 
-export default function ForgotPasswordPage() {
+export default function SignupPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ email: '', newPassword: '', confirmNewPassword: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -21,17 +21,17 @@ export default function ForgotPasswordPage() {
     setError('');
     setSuccess('');
 
-    if (form.newPassword !== form.confirmNewPassword) {
-      setError('New passwords do not match.');
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
       return;
     }
 
-    if (form.newPassword.length < 6) {
+    if (form.password.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
     }
 
-    const result = await resetPassword({ email: form.email, newPassword: form.newPassword });
+    const result = await signupUser(form);
 
     if (!result.ok) {
       setError(result.message);
@@ -39,12 +39,13 @@ export default function ForgotPasswordPage() {
     }
 
     setSuccess(result.message);
+    setForm({ name: '', email: '', password: '', confirmPassword: '' });
     setTimeout(() => router.push('/login'), 700);
   };
 
   return (
     <main className="login-page">
-      <section className="login-section" aria-label="Forgot password">
+      <section className="login-section" aria-label="Sign up">
         <div className="login-card">
           <Link className="login-brand" href="/">
             <span className="login-brand-mark" aria-hidden="true">
@@ -55,18 +56,32 @@ export default function ForgotPasswordPage() {
             <span className="login-brand-text">FounderRise</span>
           </Link>
 
-          <p className="eyebrow">Account Recovery</p>
-          <h1>Reset your password</h1>
+          <p className="eyebrow">Create Account</p>
+          <h1>Join FounderRise</h1>
           <p className="login-subtitle">
-            Enter your account email and choose a new password.
+            Create your account to access your founder dashboard and community resources.
           </p>
 
           <form className="login-form" onSubmit={onSubmit}>
-            <label className="login-field">
+            <label className="login-field" htmlFor="name">
+              <span>Full Name</span>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Your full name"
+                value={form.name}
+                onChange={onChange}
+                required
+              />
+            </label>
+
+            <label className="login-field" htmlFor="email">
               <span>Email</span>
               <input
-                type="email"
+                id="email"
                 name="email"
+                type="email"
                 placeholder="you@company.com"
                 value={form.email}
                 onChange={onChange}
@@ -74,25 +89,27 @@ export default function ForgotPasswordPage() {
               />
             </label>
 
-            <label className="login-field">
-              <span>New Password</span>
+            <label className="login-field" htmlFor="password">
+              <span>Password</span>
               <input
+                id="password"
+                name="password"
                 type="password"
-                name="newPassword"
-                placeholder="Enter new password"
-                value={form.newPassword}
+                placeholder="Create password"
+                value={form.password}
                 onChange={onChange}
                 required
               />
             </label>
 
-            <label className="login-field">
-              <span>Confirm New Password</span>
+            <label className="login-field" htmlFor="confirmPassword">
+              <span>Confirm Password</span>
               <input
+                id="confirmPassword"
+                name="confirmPassword"
                 type="password"
-                name="confirmNewPassword"
-                placeholder="Confirm new password"
-                value={form.confirmNewPassword}
+                placeholder="Confirm password"
+                value={form.confirmPassword}
                 onChange={onChange}
                 required
               />
@@ -103,8 +120,11 @@ export default function ForgotPasswordPage() {
 
             <div className="login-actions">
               <button className="btn btn-solid btn-apply-join" type="submit">
-                Reset Password
+                Create Account
               </button>
+              <Link className="login-forgot" href="/login">
+                Already have an account?
+              </Link>
             </div>
           </form>
 
@@ -116,4 +136,3 @@ export default function ForgotPasswordPage() {
     </main>
   );
 }
-

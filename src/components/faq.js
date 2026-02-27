@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const faqs = [
   {
     q: "Who is FounderRise for?",
@@ -18,6 +22,8 @@ const faqs = [
 ];
 
 export default function Faq() {
+  const [openIndex, setOpenIndex] = useState(-1);
+
   return (
     <section id="faq" className="section">
       <div className="shell">
@@ -25,15 +31,23 @@ export default function Faq() {
         <h2>Everything founders ask before joining.</h2>
         <div className="faq-list">
           {faqs.map((item, index) => (
-            <details className="faq-item faq-accordion" key={item.q} open={index === 0}>
-              <summary className="faq-question">
+            <div
+              className={`faq-item faq-accordion${openIndex === index ? " is-open" : ""}`}
+              key={item.q}
+            >
+              <button
+                className="faq-question"
+                type="button"
+                aria-expanded={openIndex === index}
+                onClick={() => setOpenIndex((prev) => (prev === index ? -1 : index))}
+              >
                 <h3>{item.q}</h3>
                 <span className="faq-icon" aria-hidden="true" />
-              </summary>
+              </button>
               <div className="faq-answer">
                 <p>{item.a}</p>
               </div>
-            </details>
+            </div>
           ))}
         </div>
       </div>
