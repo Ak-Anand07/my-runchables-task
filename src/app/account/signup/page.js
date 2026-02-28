@@ -7,7 +7,7 @@ import { signupUser } from '../../../lib/auth';
 
 export default function SignupPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -39,7 +39,7 @@ export default function SignupPage() {
     }
 
     setSuccess(result.message);
-    setForm({ name: '', email: '', password: '', confirmPassword: '' });
+    setForm({ email: '', password: '', confirmPassword: '' });
     setTimeout(() => router.push('/login'), 700);
   };
 
@@ -63,19 +63,6 @@ export default function SignupPage() {
           </p>
 
           <form className="login-form" onSubmit={onSubmit}>
-            <label className="login-field" htmlFor="name">
-              <span>Full Name</span>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Your full name"
-                value={form.name}
-                onChange={onChange}
-                required
-              />
-            </label>
-
             <label className="login-field" htmlFor="email">
               <span>Email</span>
               <input

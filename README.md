@@ -35,7 +35,7 @@ This project focuses on:
 
 ## MySQL Setup
 
-Auth storage has been moved from `localStorage` to MySQL.
+Auth storage uses MySQL.
 
 1. Copy `.env.example` to `.env.local` and set your MySQL credentials.
 2. Install dependencies:
@@ -50,5 +50,5 @@ npm install
 npm run dev
 ```
 
-The app creates `users` and `sessions` tables automatically when auth APIs are called.
+The app creates the `users` table automatically when auth APIs are called.
 

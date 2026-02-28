@@ -36,10 +36,8 @@ export async function createUsersTable() {
   await query(`
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      username VARCHAR(191) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      name VARCHAR(120),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      username VARCHAR(100) UNIQUE NOT NULL,
+      password VARCHAR(100) NOT NULL
     )
   `);
 }

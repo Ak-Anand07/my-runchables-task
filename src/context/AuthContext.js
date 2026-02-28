@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
         localStorage.removeItem(AUTH_STORAGE_KEY);
       }
     } catch {
-      // Ignore storage errors and keep in-memory state.
     }
   };
 

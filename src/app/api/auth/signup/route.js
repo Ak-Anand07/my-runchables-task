@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server';
-import { query } from '../../../../lib/server/db';
+import { ensureSchema, query } from '../../../../lib/server/db';
 import bcrypt from 'bcryptjs';
 
 export const runtime = 'nodejs';
 
 export async function POST(req) {
   try {
-    const { name, username, email, password } = await req.json();
+    await ensureSchema();
+
+    const { username, email, password } = await req.json();
 
     const userNameValue = (username || email || '').trim().toLowerCase();
-    const trimmedName = name?.trim() || null;
 
     if (!userNameValue || !password) {
       return NextResponse.json(
@@ -34,8 +35,8 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await query(
-      'INSERT INTO users (username, password, name) VALUES (?, ?, ?)',
-      [userNameValue, hashedPassword, trimmedName]
+      'INSERT INTO users (username, password) VALUES (?, ?)',
+      [userNameValue, hashedPassword]
     );
 
     return NextResponse.json({
@@ -44,6 +45,7 @@ export async function POST(req) {
     });
 
   } catch (error) {
+    console.error('Signup API error:', error);
     return NextResponse.json(
       { ok: false, message: 'Server error. Please try again.' },
       { status: 500 }
