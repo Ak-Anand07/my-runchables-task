@@ -21,7 +21,7 @@ export default function ProfilePage() {
     );
   }
 
-  const displayName = user.name || 'Founder';
+  const displayName = user.name || user.username || 'Founder';
   const username = user.username || '-';
   const initials = displayName
     .split(' ')

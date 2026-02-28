@@ -8,13 +8,14 @@ export async function POST(req) {
   try {
     await ensureSchema();
 
-    const { username, email, password } = await req.json();
+    const { name, username, email, password } = await req.json();
 
+    const trimmedName = String(name || '').trim();
     const userNameValue = (username || email || '').trim().toLowerCase();
 
-    if (!userNameValue || !password) {
+    if (!trimmedName || !userNameValue || !password) {
       return NextResponse.json(
-        { ok: false, message: 'Username and password are required.' },
+        { ok: false, message: 'Name, username and password are required.' },
         { status: 400 }
       );
     }
@@ -35,8 +36,8 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await query(
-      'INSERT INTO users (username, password) VALUES (?, ?)',
-      [userNameValue, hashedPassword]
+      'INSERT INTO users (name, username, password) VALUES (?, ?, ?)',
+      [trimmedName, userNameValue, hashedPassword]
     );
 
     return NextResponse.json({

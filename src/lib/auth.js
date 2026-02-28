@@ -19,8 +19,9 @@ async function post(url, data) {
   }
 }
 
-export async function signupUser({ email, password }) {
+export async function signupUser({ name, email, password }) {
   return post('/api/auth/signup', {
+    name,
     username: String(email || '').trim().toLowerCase(),
     password,
   });

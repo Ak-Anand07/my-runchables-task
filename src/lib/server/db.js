@@ -36,10 +36,27 @@ export async function createUsersTable() {
   await query(`
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100),
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL
     )
   `);
+
+  const nameColumn = await query(
+    `
+      SELECT COLUMN_NAME
+      FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = ?
+        AND TABLE_NAME = 'users'
+        AND COLUMN_NAME = 'name'
+      LIMIT 1
+    `,
+    [process.env.MYSQL_DATABASE]
+  );
+
+  if (nameColumn.length === 0) {
+    await query('ALTER TABLE users ADD COLUMN name VARCHAR(100) NULL AFTER id');
+  }
 }
 
 export async function ensureSchema() {

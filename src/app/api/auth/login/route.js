@@ -20,7 +20,7 @@ export async function POST(req) {
     }
 
     const rows = await query(
-      'SELECT id, username, password FROM users WHERE username = ? LIMIT 1',
+      'SELECT id, name, username, password FROM users WHERE username = ? LIMIT 1',
       [userNameValue]
     );
 
