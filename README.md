@@ -1,6 +1,6 @@
 # Runchables Task
 
-A modern and responsive web application built using React / Next.js.
+A modern and responsive web application built using React / Next.js, featuring a simple authentication backend.
 
 ## Live Demo
 
@@ -10,45 +10,44 @@ A modern and responsive web application built using React / Next.js.
 
 ## About The Project
 
-This is a frontend web application designed to demonstrate modern UI design, responsive layout, and clean component structure.
+This project is a frontend web application designed to showcase:
 
-This project focuses on:
+- Clean UI design – modern, professional interface
 
-- Clean UI Design
-- Responsive Layout
-- Component-based architecture
-- Modern React / Next.js practices
+- Responsive layout – works smoothly on mobile, tablet, and desktop
+
+- Component-based architecture – modular and reusable components
+
+- Modern React / Next.js practices – routing, server-side rendering, and best practices
+
+- Authentication backend – simple user login and registration using MySQL
+
+All main design and logic were implemented manually and certain standard code sections were assisted by AI.
 
 ---
 
 ## Built With
 
-- React.js / Next.js
-- JavaScript (ES6+)
-- HTML5
-- CSS3 / Bootstrap
-- MySQL
-- Git & GitHub
-- Vercel (Deployment)
+- Frontend: React.js / Next.js
 
+- Styling: HTML5, CSS3, Bootstrap
+
+- Backend: Node.js + MySQL (for authentication)
+
+- Database: MySQL
+
+- Version Control: Git & GitHub
+
+- Deployment: Vercel
+  
 ---
 
-## MySQL Setup
+## Features
 
-Auth storage uses MySQL.
+- User registration and login (with MySQL backend)
 
-1. Copy `.env.example` to `.env.local` and set your MySQL credentials.
-2. Install dependencies:
+- Clean, responsive UI
 
-```bash
-npm install
-```
+- Component-based design for easy scalability
 
-3. Run the app:
-
-```bash
-npm run dev
-```
-
-The app creates the `users` table automatically when auth APIs are called.
-
+- Deployed and accessible via live demo
